@@ -1,0 +1,31 @@
+spring:
+    application:
+        name: baseTemplate
+    security:
+        user:
+            name: user
+            password: fccaa956-d09c-413e-8a15-1d2376978de6
+    datasource:
+        driverClassName: org.h2.Driver
+        password: h2database
+        url: jdbc:h2:mem:testdb
+        username: h2database
+    h2:
+        console:
+            enabled: true
+    jpa:
+        database-platform: org.hibernate.dialect.H2Dialect
+        hibernate:
+            ddl-auto: update
+#        properties:
+#            hibernate:
+#                cache:
+#                    use_second_level_cache: true
+#                    use_query_cache: true
+#                    region:
+#                        factory_class: org.redisson.hibernate.RedissonRegionFactory
+#                    redisson:
+#                        config: hibernate-redis.yml
+
+server:
+    port: 8082

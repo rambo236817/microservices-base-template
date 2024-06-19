@@ -1,0 +1,12 @@
+redis:
+    host: localhost
+    password: abcde
+    pool:
+        maxIdle: 128
+        maxTotal: 128
+        minIdle: 16
+        testOnBorrow: true
+        testOnReturn: true
+        testWhileIdle: true
+    port: 8090
+    timeout: 2000
