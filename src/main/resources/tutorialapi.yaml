@@ -1,0 +1,240 @@
+openapi: "3.0.1"
+info:
+  version: 1.0.0
+  title: Swagger Tutorials
+
+servers:
+  - url: http://localhost:8082/
+paths:
+  /tutorials:
+    get:
+      summary: List all Tutorials
+      operationId: getAllTutorials
+      tags:
+        - Tutorials
+      parameters:
+        - name: title
+          in: query
+          description: title of the tutorial
+          required: false
+          schema:
+            type: string
+      responses:
+        200:
+          description: A paged array of Tutorials
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/Tutorials"
+        400:
+          description: Bad request
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+          
+    post:
+      tags:
+        - Tutorials    
+      summary: Create a tutorial
+      operationId: createTutorial
+      requestBody:
+        description: A create tutorial request.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tutorial'
+        required: true
+      responses:
+        200:
+          description: new tutorial created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tutorial'
+        400:
+          description: Bad request
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+      x-codegen-request-body-name: body  
+
+    delete:
+      tags:
+        - Tutorials    
+      summary: Delete all tutorial
+      operationId: deleteAllTutorials
+      responses:
+        204:
+          description: success
+          content: {}
+
+        400:
+          description: Bad request
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+      x-codegen-request-body-name: body  
+      
+  /tutorials/{tutorialId}:
+    get:
+      summary: Info for a specific tutorial
+      operationId: getTutorialById
+      tags:
+        - Tutorials
+      parameters:
+        - name: tutorialId
+          in: path
+          required: true
+          description: The id of the tutorial to retrieve
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tutorial"
+        400:
+          description: Bad request
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+    put:
+      summary: Info for a specific tutorial
+      operationId: updateTutorialById
+      tags:
+        - Tutorials
+      parameters:
+        - name: tutorialId
+          in: path
+          required: true
+          description: The id of the tutorial to update
+          schema:
+            type: integer
+      requestBody:
+        description: An update tutorial request.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tutorial'
+        required: true
+      responses:
+        200:
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tutorial"
+        400:
+          description: Bad request
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}             
+      x-codegen-request-body-name: body
+      
+    delete:
+      tags:
+      - Tutorials
+      description: Delete a tutorial by Id.
+      summary: Delete a tutorial.
+      operationId: deleteTutorial
+      parameters:
+      - name: tutorialId
+        in: path
+        description: The tutorial identifier that needs to be deleted.
+        required: true
+        schema:
+          type: integer
+      responses:
+        204:
+          description: success
+          content: {}
+
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}        
+          
+  /tutorials/published:
+    get:
+      summary: Info for tutorials published
+      operationId: findByPublished
+      tags:
+        - Tutorials
+      responses:
+        200:
+          description: A paged array of Tutorials
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/Tutorials"
+        400:
+          description: Bad request
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+components:
+  schemas:
+    Tutorial:
+      type: object
+      required:
+      - title
+      - description
+      - published
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        published:
+          type: boolean
+
+
+    Tutorials:
+      type: array
+      items:
+        $ref: "#/components/schemas/Tutorial"

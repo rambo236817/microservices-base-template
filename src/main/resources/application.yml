@@ -1,0 +1,38 @@
+spring:
+    application:
+        name: baseTemplate
+    security:
+        user:
+            name: user
+            password: fccaa956-d09c-413e-8a15-1d2376978de6
+    datasource:
+#        driverClassName: org.h2.Driver
+#        password: h2database
+        url: r2dbc:h2:file:///./testdb
+#        username: h2database
+    h2:
+        console:
+            enabled: true
+#    jpa:
+#        database-platform: org.hibernate.dialect.H2Dialect
+#        hibernate:
+#            ddl-auto: update
+#        properties:
+#            hibernate:
+#                cache:
+#                    use_second_level_cache: 'true'
+#                    region:
+#                        factory_class: org.hibernate.cache.redis.hibernate52.SingletonRedisRegionFactory
+#                    provider_configuration_file_resource_path: hibernate-redis.properties
+
+server:
+    port: 8082
+springdoc:
+    swagger-ui:
+        tagsSorter : alpha
+        operations-sorter: alpha
+        doc-expansion : none
+        disable-swagger-default-url : false
+        path : /v3/swagger-ui.html
+    api-docs:
+        path : /v3/api-docs
