@@ -30,4 +30,12 @@ public class MerchantServiceImpl {
 		return repository.save(merchantStore).map(mapper::toDto);
 
 	}
+
+	public Mono<Void> deleteMerchantById(int id){
+		return repository.deleteById(id);
+	}
+	
+	public Mono<Merchant> getMerchantById(int id){
+		return repository.findById(id).map(mapper::toDto);
+	}
 }
