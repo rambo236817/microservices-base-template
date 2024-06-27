@@ -27,7 +27,9 @@ public class MerchantController implements MerchantsApi {
 	@Override
 	public Mono<String> deleteMerchantById(String merchantId, ServerWebExchange exchange) {
 		// TODO Auto-generated method stub
-		return null;
+		return service.deleteMerchantById(Integer.parseInt(merchantId))
+				.thenReturn("The merchant deleted is " + merchantId);
+
 	}
 
 	@Override
@@ -38,7 +40,8 @@ public class MerchantController implements MerchantsApi {
 	@Override
 	public Mono<Merchant> showMerchantById(String merchantId, ServerWebExchange exchange) {
 		// TODO Auto-generated method stub
-		return null;
+		return service.getMerchantById(Integer.parseInt(merchantId));
 	}
+
 
 }
