@@ -26,4 +26,12 @@ public class MerchantServiceImpl {
 		return Mono.just(dto).map(mapper::toEntity).flatMap(repository::save).map(mapper::toDto);
 		
 	}
+
+	public Mono<Void> deleteMerchantById(int id){
+		return repository.deleteById(id);
+	}
+	
+	public Mono<Merchant> getMerchantById(int id){
+		return repository.findById(id).map(mapper::toDto);
+	}
 }
