@@ -1,0 +1,378 @@
+openapi: "3.0.1"
+info:
+  version: 1.0.0
+  title: Swagger Tutorials
+
+servers:
+  - url: http://localhost:8082/
+paths:
+  /tutorials:
+    get:
+      summary: List all Tutorials
+      operationId: getAllTutorials
+      tags:
+        - Tutorials
+      parameters:
+        - name: title
+          in: query
+          description: title of the tutorial
+          required: false
+          schema:
+            type: string
+      responses:
+        200:
+          description: A paged array of Tutorials
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/Tutorials"
+        400:
+          description: Bad request
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+          
+    post:
+      tags:
+        - Tutorials    
+      summary: Create a tutorial
+      operationId: createTutorial
+      requestBody:
+        description: A create tutorial request.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tutorial'
+        required: true
+      responses:
+        200:
+          description: new tutorial created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tutorial'
+        400:
+          description: Bad request
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+      x-codegen-request-body-name: body  
+
+    delete:
+      tags:
+        - Tutorials    
+      summary: Delete all tutorial
+      operationId: deleteAllTutorials
+      responses:
+        204:
+          description: success
+          content: {}
+
+        400:
+          description: Bad request
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+      x-codegen-request-body-name: body  
+      
+  /tutorials/{tutorialId}:
+    get:
+      summary: Info for a specific tutorial
+      operationId: getTutorialById
+      tags:
+        - Tutorials
+      parameters:
+        - name: tutorialId
+          in: path
+          required: true
+          description: The id of the tutorial to retrieve
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tutorial"
+        400:
+          description: Bad request
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+    put:
+      summary: Info for a specific tutorial
+      operationId: updateTutorialById
+      tags:
+        - Tutorials
+      parameters:
+        - name: tutorialId
+          in: path
+          required: true
+          description: The id of the tutorial to update
+          schema:
+            type: integer
+      requestBody:
+        description: An update tutorial request.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tutorial'
+        required: true
+      responses:
+        200:
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tutorial"
+        400:
+          description: Bad request
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}             
+      x-codegen-request-body-name: body
+      
+    delete:
+      tags:
+      - Tutorials
+      description: Delete a tutorial by Id.
+      summary: Delete a tutorial.
+      operationId: deleteTutorial
+      parameters:
+      - name: tutorialId
+        in: path
+        description: The tutorial identifier that needs to be deleted.
+        required: true
+        schema:
+          type: integer
+      responses:
+        204:
+          description: success
+          content: {}
+
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}        
+          
+  /tutorials/published:
+    get:
+      summary: Info for tutorials published
+      operationId: findByPublished
+      tags:
+        - Tutorials
+      responses:
+        200:
+          description: A paged array of Tutorials
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/Tutorials"
+        400:
+          description: Bad request
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+          
+  /merchants:
+    get:
+      summary: List all merchants
+      operationId: listMerchants
+      tags:
+       - Merchants
+      responses:
+        '200':
+          description: A paged array of merchants
+          headers:
+            x-next:
+              description: A link to the next page of responses
+              schema:
+                type: string
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/Merchants"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /merchants/create:
+    post:
+      summary: Create a merchant
+      operationId: createMerchant
+      tags:
+       - Merchants
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Merchant'
+        required: true
+      responses:
+        '201':
+          description: Merchant Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MerchantResponse"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /merchants/{merchantId}:
+    get:
+      summary: Info for a specific merchant
+      operationId: showMerchantById
+      tags:
+       - Merchants
+      parameters:
+        - name: merchantId
+          in: path
+          required: true
+          description: The id of the merchant to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Merchant"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      summary: Deletes a specific merchant
+      operationId: deleteMerchantById
+      tags:
+       - Merchants
+      parameters:
+        - name: merchantId
+          in: path
+          required: true
+          description: The id of the merchant to delete
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            text/plain:
+              schema:
+                type: string
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"  
+components:
+  schemas:
+    MerchantResponse:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string
+    Merchant:
+      type: object
+      required:
+        - name
+        - merchantType
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        merchantType:
+          type: string
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    Merchants:
+      type: array
+      maxItems: 100
+      items:
+        $ref: "#/components/schemas/Merchant"
+          
+    Tutorial:
+      type: object
+      required:
+      - title
+      - description
+      - published
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        published:
+          type: boolean
+
+
+    Tutorials:
+      type: array
+      items:
+        $ref: "#/components/schemas/Tutorial"
