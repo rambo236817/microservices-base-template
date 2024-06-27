@@ -9,7 +9,6 @@ import org.springframework.web.server.ServerWebExchange;
 
 import com.alti.baseTemplate.service.impl.MerchantServiceImpl;
 
-import jakarta.validation.Valid;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -19,9 +18,9 @@ public class MerchantController implements MerchantsApi {
 	MerchantServiceImpl service;
 
 	@Override
-	public Mono<MerchantResponse> createMerchant(@Valid Mono<Merchant> merchant, ServerWebExchange exchange) {
-		merchant.subscribe(service::saveMerchant);
-		return Mono.just(new MerchantResponse("Created Merchant"));
+	public Mono<Merchant> createMerchant(Mono<Merchant> merchant, ServerWebExchange exchange) {
+		return merchant.flatMap(service::saveMerchant);
+//		return Mono.just(new MerchantResponse("Created Merchant"));
 	}
 
 	@Override
