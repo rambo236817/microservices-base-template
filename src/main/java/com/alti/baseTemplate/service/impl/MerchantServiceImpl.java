@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.alti.baseTemplate.entity.MerchantStore;
 import com.alti.baseTemplate.mapper.MerchantMapper;
+import com.alti.baseTemplate.exception.MerchantNotFoundException;
 import com.alti.baseTemplate.service.repo.MerchantRepository;
 
 import reactor.core.publisher.Flux;
@@ -23,7 +24,7 @@ public class MerchantServiceImpl {
 		return repository.findAll().map(mapper::toDto);
 	}
 
-	public Mono<Merchant> saveMerchant(Merchant dto) {
+	public Mono<Merchant> saveMerchant(Merchant dto) throws RuntimeException {
 
 		MerchantStore merchantStore = mapper.toEntity(dto);
 
@@ -31,11 +32,14 @@ public class MerchantServiceImpl {
 
 	}
 
-	public Mono<Void> deleteMerchantById(int id){
+	public Mono<Void> deleteMerchantById(int id) throws MerchantNotFoundException {
 		return repository.deleteById(id);
 	}
 	
-	public Mono<Merchant> getMerchantById(int id){
-		return repository.findById(id).map(mapper::toDto);
+	public Mono<Merchant> getMerchantById(int id) throws MerchantNotFoundException {
+		// Mono<MerchantStore> found = repository.findById(id);
+
+		return repository.findById(id).map(mapper::toDto)
+				.switchIfEmpty(Mono.error(new MerchantNotFoundException("Merchant Not Found for id " + id)));
 	}
 }
