@@ -33,9 +33,9 @@ public class MerchantServiceImpl {
 	}
 
 	public Mono<Void> deleteMerchantById(int id) throws MerchantNotFoundException {
-		return repository.deleteById(id);
+		return repository.deleteById(id).switchIfEmpty(Mono.error(new MerchantNotFoundException("Merchant Not Found for id " + id)));
 	}
-	
+
 	public Mono<Merchant> getMerchantById(int id) throws MerchantNotFoundException {
 		// Mono<MerchantStore> found = repository.findById(id);
 

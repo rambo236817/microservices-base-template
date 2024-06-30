@@ -28,17 +28,28 @@ paths:
                 $ref: "#/components/schemas/Tutorials"
         400:
           description: Bad request
-          content: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         401:
           description: Unauthorized
-          content: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         403:
           description: Forbidden
-          content: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         404:
           description: Not Found
-          content: {}
-          
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'          
     post:
       tags:
         - Tutorials    
@@ -60,13 +71,22 @@ paths:
                 $ref: '#/components/schemas/Tutorial'
         400:
           description: Bad request
-          content: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         401:
           description: Unauthorized
-          content: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         403:
           description: Forbidden
-          content: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
       x-codegen-request-body-name: body  
 
     delete:
@@ -78,16 +98,24 @@ paths:
         204:
           description: success
           content: {}
-
         400:
           description: Bad request
-          content: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         401:
           description: Unauthorized
-          content: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         403:
           description: Forbidden
-          content: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
       x-codegen-request-body-name: body  
       
   /tutorials/{tutorialId}:
@@ -112,16 +140,28 @@ paths:
                 $ref: "#/components/schemas/Tutorial"
         400:
           description: Bad request
-          content: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         401:
           description: Unauthorized
-          content: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         403:
           description: Forbidden
-          content: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         404:
           description: Not Found
-          content: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'   
     put:
       summary: Info for a specific tutorial
       operationId: updateTutorialById
@@ -150,16 +190,28 @@ paths:
                 $ref: "#/components/schemas/Tutorial"
         400:
           description: Bad request
-          content: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         401:
           description: Unauthorized
-          content: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         403:
           description: Forbidden
-          content: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         404:
           description: Not Found
-          content: {}             
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'          
       x-codegen-request-body-name: body
       
     delete:
@@ -182,13 +234,22 @@ paths:
 
         401:
           description: Unauthorized
-          content: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         403:
           description: Forbidden
-          content: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         404:
           description: Not Found
-          content: {}        
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'      
           
   /tutorials/published:
     get:
@@ -205,16 +266,28 @@ paths:
                 $ref: "#/components/schemas/Tutorials"
         400:
           description: Bad request
-          content: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         401:
           description: Unauthorized
-          content: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         403:
           description: Forbidden
-          content: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         404:
           description: Not Found
-          content: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
           
   /merchants:
     get:
@@ -376,3 +449,5 @@ components:
       type: array
       items:
         $ref: "#/components/schemas/Tutorial"
+        
+        

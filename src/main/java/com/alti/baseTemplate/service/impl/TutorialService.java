@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alti.baseTemplate.entity.TutorialDomain;
+import com.alti.baseTemplate.exception.TutorialNotFoundException;
 import com.alti.baseTemplate.mapper.TutorialMapper;
 import com.alti.baseTemplate.service.repo.TutorialRepository;
 
@@ -29,7 +30,10 @@ public class TutorialService {
 	}
 
 	public Mono<Tutorial> findById(int id) {
-		return tutorialRepository.findById(id).map(tutorialMapper::toModel);
+		return tutorialRepository.findById(id)
+				.switchIfEmpty(Mono.error(new TutorialNotFoundException("Tutorial not found with ID: " + id)))
+				.flatMap(entity -> tutorialRepository.findById(id).map(tutorialMapper::toModel));
+
 	}
 
 	public Mono<Tutorial> save(Mono<Tutorial> createTutorialRequest) {
@@ -42,19 +46,25 @@ public class TutorialService {
 
 		return updateMono.flatMap(model -> {
 			// Retrieve existing entity or handle not found scenario
-			return tutorialRepository.findById(id).flatMap(existingEntity -> {
-				// Update existing entity with model data
-				existingEntity.setDescription(model.getDescription());
-				existingEntity.setPublished(model.getPublished());
-				existingEntity.setTitle(model.getTitle());
-				// Save updated entity
-				return tutorialRepository.save(existingEntity);
-			}).map(tutorialMapper::toModel);
+			return tutorialRepository.findById(id)
+					.switchIfEmpty(Mono.error(new TutorialNotFoundException("Tutorial not found with ID: " + id)))
+					.flatMap(existingEntity -> {
+						// Update existing entity with model data
+						existingEntity.setDescription(model.getDescription());
+						existingEntity.setPublished(model.getPublished());
+						existingEntity.setTitle(model.getTitle());
+						// Save updated entity
+						return tutorialRepository.save(existingEntity);
+					}).map(tutorialMapper::toModel);
 		});
 	}
 
 	public Mono<Void> deleteById(int id) {
-		return tutorialRepository.deleteById(id);
+
+		return tutorialRepository.findById(id)
+				.switchIfEmpty(Mono.error(new TutorialNotFoundException("Tutorial not found with ID: " + id)))
+				.flatMap(entity -> tutorialRepository.deleteById(id));
+//		return tutorialRepository.deleteById(id);
 	}
 
 	public Mono<Void> deleteAll() {

@@ -39,6 +39,14 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 	 * Mono.just(e.getMessage()); }
 	 * 
 	 */
+
+	@ExceptionHandler(TutorialNotFoundException.class)
+	protected ProblemDetail handleTutorialNotFound(RuntimeException ex) {
+		ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
+		problemDetail.setTitle(ex.getMessage());
+		return problemDetail;
+	}
+
 	@ExceptionHandler(MerchantNotFoundException.class)
 	protected ProblemDetail handleNotFound(RuntimeException ex) {
 		ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
