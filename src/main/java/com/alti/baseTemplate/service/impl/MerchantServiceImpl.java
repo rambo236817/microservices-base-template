@@ -32,6 +32,7 @@ public class MerchantServiceImpl {
 
 	}
 
+	//testing
 	public Mono<Void> deleteMerchantById(int id) throws MerchantNotFoundException {
 
 		return repository.existsById(id).flatMap(exists -> {
