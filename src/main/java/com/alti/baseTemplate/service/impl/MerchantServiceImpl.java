@@ -5,8 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alti.baseTemplate.entity.MerchantStore;
-import com.alti.baseTemplate.mapper.MerchantMapper;
 import com.alti.baseTemplate.exception.MerchantNotFoundException;
+import com.alti.baseTemplate.mapper.MerchantMapper;
 import com.alti.baseTemplate.service.repo.MerchantRepository;
 
 import reactor.core.publisher.Flux;
@@ -33,7 +33,15 @@ public class MerchantServiceImpl {
 	}
 
 	public Mono<Void> deleteMerchantById(int id) throws MerchantNotFoundException {
-		return repository.deleteById(id).switchIfEmpty(Mono.error(new MerchantNotFoundException("Merchant Not Found for id " + id)));
+
+		return repository.existsById(id).flatMap(exists -> {
+			if (exists) {
+				return repository.deleteById(id);
+			} else {
+				return Mono.error(new MerchantNotFoundException("Merchant not found with id: " + id));
+			}
+		});
+
 	}
 
 	public Mono<Merchant> getMerchantById(int id) throws MerchantNotFoundException {

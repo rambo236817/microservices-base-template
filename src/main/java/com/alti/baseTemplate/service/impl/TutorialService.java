@@ -61,10 +61,14 @@ public class TutorialService {
 
 	public Mono<Void> deleteById(int id) {
 
-		return tutorialRepository.findById(id)
-				.switchIfEmpty(Mono.error(new TutorialNotFoundException("Tutorial not found with ID: " + id)))
-				.flatMap(entity -> tutorialRepository.deleteById(id));
-//		return tutorialRepository.deleteById(id);
+		return tutorialRepository.existsById(id).flatMap(exists -> {
+			if (exists) {
+				return tutorialRepository.deleteById(id);
+			} else {
+				return Mono.error(new TutorialNotFoundException("Tutorial not found with ID: " + id));
+			}
+		});
+
 	}
 
 	public Mono<Void> deleteAll() {
